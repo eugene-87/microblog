@@ -1,0 +1,5 @@
+flask
+app/__pycache__
+migrations/
+venv/
+__pycache__/
