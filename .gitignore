@@ -1,4 +1,6 @@
-flask
+.gitignore
+srv
+sh
 app/__pycache__
 migrations/
 venv/
