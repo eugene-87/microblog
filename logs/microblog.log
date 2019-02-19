@@ -71,3 +71,14 @@ Traceback (most recent call last):
   File "/home/eugene/WebProjects/microblog/venv/lib/python3.7/site-packages/sqlalchemy/engine/default.py", line 536, in do_execute
     cursor.execute(statement, parameters)
 sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) UNIQUE constraint failed: user.username [SQL: 'UPDATE user SET username=?, about_me=? WHERE user.id = ?'] [parameters: ('john', "Hi there! I'm cute girl with huge tits! xD\r\nI'm looking for good friends!", 2)] (Background on this error at: http://sqlalche.me/e/gkpj)
+2019-02-17 16:13:01,709 INFO: Microblog startup [in /home/eugene/WebProjects/microblog/app/__init__.py:32]
+2019-02-17 16:17:41,731 INFO: Microblog startup [in /home/eugene/WebProjects/microblog/app/__init__.py:32]
+2019-02-17 16:21:32,408 INFO: Microblog startup [in /home/eugene/WebProjects/microblog/app/__init__.py:32]
+2019-02-17 16:21:52,424 INFO: Microblog startup [in /home/eugene/WebProjects/microblog/app/__init__.py:32]
+2019-02-17 19:18:44,343 INFO: Microblog startup [in /home/eugene/WebProjects/microblog/app/__init__.py:32]
+2019-02-17 19:19:08,799 INFO: Microblog startup [in /home/eugene/WebProjects/microblog/app/__init__.py:32]
+2019-02-17 19:21:14,826 INFO: Microblog startup [in /home/eugene/WebProjects/microblog/app/__init__.py:32]
+2019-02-17 19:22:33,859 INFO: Microblog startup [in /home/eugene/WebProjects/microblog/app/__init__.py:32]
+2019-02-17 19:24:18,412 INFO: Microblog startup [in /home/eugene/WebProjects/microblog/app/__init__.py:32]
+2019-02-17 19:24:36,555 INFO: Microblog startup [in /home/eugene/WebProjects/microblog/app/__init__.py:32]
+2019-02-18 07:21:05,095 INFO: Microblog startup [in /home/eugene/WebProjects/microblog/app/__init__.py:32]

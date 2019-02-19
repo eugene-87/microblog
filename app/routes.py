@@ -9,12 +9,20 @@ from app.models import User
 from werkzeug.urls import url_parse
 from datetime import datetime
 
+############################################################
+#   PERFORM BEFORE ANY REQUEST
+############################################################
+
 
 @app.before_request
 def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
+
+############################################################
+#   INDEX PAGE
+############################################################
 
 
 @app.route('/')
@@ -23,19 +31,23 @@ def before_request():
 def index():
     posts = [
         {
-            'author': {'username': 'John'},
+            'author': {'username': 'john'},
             'body': 'Beautiful day in Portland!'
         },
         {
-            'author': {'username': 'Susan'},
+            'author': {'username': 'susan'},
             'body': 'The Avengers movie was so cool!'
         },
         {
-            'author': {'username': 'Ипполит'},
+            'author': {'username': 'David'},
             'body': 'Какая гадость эта ваша заливная рыба!'
         }
     ]
     return render_template('index.html', title='Home', posts=posts)
+
+############################################################
+#   LOG IN TO APP
+############################################################
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -56,11 +68,19 @@ def login():
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
+############################################################
+#   LOG OUT FROM APP
+############################################################
+
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+############################################################
+#   REGISTRATION NEW USER
+############################################################
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -78,6 +98,10 @@ def register():
 
     return render_template('register.html', title='Register', form=form)
 
+############################################################
+#   USER PROFILE PAGE
+############################################################
+
 
 @app.route('/user/<username>')
 @login_required
@@ -88,6 +112,10 @@ def user(username):
         {'author': user, 'body': "Test post #2"}
     ]
     return render_template('user.html', user=user, posts=posts)
+
+############################################################
+#   EDIT USER PROFILE
+############################################################
 
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
@@ -105,3 +133,43 @@ def edit_profile():
         form.about_me.data = current_user.about_me
     return render_template('edit_profile.html', title='Edit profile',
                            form=form)
+
+############################################################
+#   FOLLOW A USER
+############################################################
+
+
+@app.route('/follow/<username>')
+@login_required
+def follow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash("User {} not found.".format(username))
+        return redirect(url_for('index'))
+    if user == current_user:
+        flash("You can't follow yourself!")
+        return redirect(url_for('user', username=username))
+    current_user.follow(user)
+    db.session.commit()
+    flash("You are following {}!".format(username))
+    return redirect(url_for('user', username=username))
+
+############################################################
+#   UNFOLLOW A USER
+############################################################
+
+
+@app.route('/unfollow/<username>')
+@login_required
+def unfollow(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        flash("User {} not found.".format(username))
+        return redirect(url_for('index'))
+    if user == current_user:
+        flash("You can't unfollow yourself!")
+        return redirect(url_for('user', username=username))
+    current_user.unfollow(user)
+    db.session.commit()
+    flash("You are not following {}".format(username))
+    return redirect(url_for('user', username=username))
